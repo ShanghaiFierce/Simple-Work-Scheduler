@@ -35,7 +35,7 @@
           <h5 class="hour">7AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -44,7 +44,7 @@
           <h5 class="hour">8AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -53,7 +53,7 @@
           <h5 class="hour">9AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -62,7 +62,7 @@
           <h5 class="hour">10AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -71,7 +71,7 @@
           <h5 class="hour">11AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -80,7 +80,7 @@
           <h5 class="hour">12AM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -89,7 +89,7 @@
           <h5 class="hour">1PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -98,7 +98,7 @@
           <h5 class="hour">2PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -107,7 +107,7 @@
           <h5 class="hour">3PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -116,7 +116,7 @@
           <h5 class="hour">4PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -125,7 +125,7 @@
           <h5 class="hour">5PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
@@ -134,62 +134,85 @@
           <h5 class="hour">6PM</h5>
         </div>
         <div>
-          <textarea name="description" id="schedule-details" cols="80" rows="8"></textarea>
+          <textarea name="description" class="schedule-details" cols="80" rows="8"></textarea>
         </div>
         <input type="button" value="Save" id="save-detail" class="saveBtn">
       </div>
     </div>
   </div>
-
-
-<script type="text/javascript">
+</body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
+<script type="text/javascript">
+  // // Check if anything is stored in localstorage
   var agendaDetails = JSON.parse(localStorage.getItem('eventItem')) || [];
 
-  $('.saveBtn').on('click', function (event) {
+  // Record and set schedule detail updates user saves to localstorage
+  $('.saveBtn').on('click', function(event) {
 
-    var eventItem = $('#schedule-details').val();
+    var eventItem = $('.schedule-details').val();
     $(this).val('');
 
+    // stringify values into localstorage
     localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
 
+    // label the items as input 
     agendaDetails.push({
-      input: eventItem
+      detail: eventItem
     });
+  });
 
+  // Event listener for any area outside of the textarea
+  $(".schedule-details").on("blur", "textarea", function () {
+    // get the textarea's current value/text
+    var text = $(this)
+      .val()
+      .trim();
+
+    // get the nearby time attribute
+    var agendaTime = $(this)
+      .closest(".hour")
+      .attr("h5")
+      .replace("list-", "");
+
+    // agenda detail position on the page 
+    var index = $(this)
+    .closest(".schedule-details")
+    .index();
+
+    $(this).replaceWith(agendaTime);
+
+    // focus on the section
     eventItem.trigger("focus");
 
-    $("#schedule-details").on("blue", "textarea", function () {
-      var content = $(this)
-        .val(text)
-        .trim();
+  });
 
-      $(this).replaceWith(eventItem);
-    });
+  var saveAgenda = function () {
+    localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
+  };
+  saveAgenda();
 
-    var saveAgenda = function () {
-      localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
-    };
-    saveAgenda();
+  // // remove local storage if needed
+  // var deleteItem = function () {
+  //   localStorage.removeItem("eventItem", JSON.parse(agendaDetails));
+  // };
 
-    // remove local storage if needed
-    var deleteItem = function () {
-      localStorage.removeItem("eventItem", JSON.parse(agendaDetails));
+  //alert user if eventItem is past time
+  $('textarea').on('closed.bs.alert', function () {
+    // convert to moment object at 5:00pm
+    var time = moment(date, "L").set("hour", 17);
 
-      //alert user if eventItem is past time
-      $('eventItem').on('closed.bs.alert', function () {
-        // convert to moment object at 5:00pm
-        var time = moment(date, "L").set("hour", 17);
+    if (moment().isAfter(time)) {
+      $('textarea').addClass(".past");
+    }
+    else if (Math.abs(moment().diff(time, "days")) <= 1) {
+      $('textarea').addClass("present");
+    }
+    else {(moment().isBefore(time));
+      $('textarea').addClass(".future");
+    }
+  });
 
-        if (moment().isAfter(time)) {
-          $('eventItem').addClass("alert alert-danger");
-        }
-        else if (Math.abs(moment().diff(time, "days")) <= 1) {
-          $('eventItem').addClass("alert alert-warning");
-        }
-      })
-<script/>
-</body>
+</script>
 </html>
