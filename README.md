@@ -26,5 +26,4 @@ Mostly HTML and CSS with Jquery within the HTML.
   <li>HTML: Use of Textarea, Buttons and various classes.</li>
   <li>CSS: No change from original code.</li>
   <li>JQuery: localstorage get/set/remove, event listeners, conditional statments, functions, replacewith, etc.</li>
-  <li></li>
 </ul>
