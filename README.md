@@ -4,7 +4,7 @@
 <h3>I WANT</h3> to add important events to a daily planner
 <h3>SO THAT</h3> I can manage my time effectively
 
-<h2>Acceptance Criteria</h2>
+<h2>Criteria</h2>
 <h4>WHEN</h4> I open the planner
 <h4>THEN</h4> the current day is displayed at the top of the calendar
 <h4>WHEN</h4> I scroll down
