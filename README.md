@@ -18,3 +18,13 @@ WHEN I click the save button for that time block
 THEN the text for that event is saved in local storage
 WHEN I refresh the page
 THEN the saved events persist
+
+<h2>Written in:</h2>
+Mostly HTML and CSS with Jquery within the HTML.
+<br>
+<ul>
+  <li>HTML: Use of Textarea, Buttons and various classes.</li>
+  <li>CSS: No change from original code.</li>
+  <li>JQuery: localstorage get/set/remove, event listeners, conditional statments, functions, replacewith, etc.</li>
+  <li></li>
+</ul>
