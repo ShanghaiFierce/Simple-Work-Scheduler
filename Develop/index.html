@@ -140,69 +140,56 @@
       </div>
     </div>
   </div>
-</body>
 
+
+<script type="text/javascript">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-<script type="text/javascript">
+  var agendaDetails = JSON.parse(localStorage.getItem('eventItem')) || [];
 
   $('.saveBtn').on('click', function (event) {
 
     var eventItem = $('#schedule-details').val();
     $(this).val('');
 
-    agendaDetails.push({
-      input: eventItem});
-
     localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
-  });
 
-  var agendaDetails = JSON.parse(localStorage.getItem('eventItem')) || [];
+    agendaDetails.push({
+      input: eventItem
+    });
 
+    eventItem.trigger("focus");
 
-  var saveAgenda = function() {
-  localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
-};
+    $("#schedule-details").on("blue", "textarea", function () {
+      var content = $(this)
+        .val(text)
+        .trim();
 
-saveAgenda();
+      $(this).replaceWith(eventItem);
+    });
 
-// // text was changed
-// $("#schedule-detail").on("click", "textarea", function() {
-//   var text = $(this)
-//     .text()
-//     .trim();
-//     console.log(text);
+    var saveAgenda = function () {
+      localStorage.setItem("eventItem", JSON.stringify(agendaDetails));
+    };
+    saveAgenda();
 
-//   $("#schedule-detail") = $("<textarea>")
-//     .addClass("agenda-control")
-//     .val(text);
-//     console.log(text);
+    // remove local storage if needed
+    var deleteItem = function () {
+      localStorage.removeItem("eventItem", JSON.parse(agendaDetails));
 
-//     $(this).replaceWith(textInput);
-//     textInput.trigger("focus");
+      //alert user if eventItem is past time
+      $('eventItem').on('closed.bs.alert', function () {
+        // convert to moment object at 5:00pm
+        var time = moment(date, "L").set("hour", 17);
 
-//     console.log(text);
-
-//     var adjust = $(this)
-//       .closest("#save-detail")
-//       .replace("textarea");
-
-//       // get the task's position
-//       var index = $(this)
-//       .closest("#save-detail")
-//       .index();
-
-//       // recreate p element
-//       var agendaP = $("<p>")
-//       .addClass("m-1")
-//       .text(text);
-
-//       // replace textarea with p element
-//       $(this).replaceWith(agendaP);
-
-//       agenda[status][index].text = text;
-//       saveAdj();
-</script>
-
+        if (moment().isAfter(time)) {
+          $('eventItem').addClass("alert alert-danger");
+        }
+        else if (Math.abs(moment().diff(time, "days")) <= 1) {
+          $('eventItem').addClass("alert alert-warning");
+        }
+      })
+<script/>
+</body>
 </html>
